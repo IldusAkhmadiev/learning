@@ -5,18 +5,25 @@
     <title>User List</title>
 </head>
 <body>
-<h1>List of Users</h1>
+<h1>Выбери язык</h1>
+<div>
+    <!-- Кнопка для английского языка -->
+    <button th:onclick="'window.location.href=\'/learn/eng\''">English</button>
+
+    <!-- Кнопка для арабского языка, помечена как недоступная -->
+    <button disabled>Arabic (Пока недоступно)</button>
+</div>
+
+<h1>Пользователи которые зарегистрировались у нас</h1>
 <table>
     <thead>
     <tr>
-        <th>Username</th>
-        <th>Email</th>
+        <th>Пользователи: </th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
         <td th:text="${user.username}">Username</td>
-        <td th:text="${user.email}">Email</td>
     </tr>
     </tbody>
 </table>
