@@ -2,62 +2,175 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Practice Lesson</title>
+    <title>English Pronouns Practice</title>
+    <style>
+        .slide {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .slide.active {
+            display: block;
+        }
+        #result-slide {
+            background-color: #f0f0f0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0;
+            transition: width 0.5s ease;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<h1>Translate the pronoun "I"</h1>
+<div class="progress-bar">
+    <div id="progress" class="progress"></div>
+</div>
 
-<div id="question-container">
-    <p>Choose the correct translation for "I":</p>
-    <form id="translation-form">
-        <input type="hidden" id="lessonId" value="pronouns_lesson_1">
-        <div>
-            <input type="radio" name="answer" id="option1" value="я">
-            <label for="option1">я</label>
-        </div>
-        <div>
-            <input type="radio" name="answer" id="option2" value="ты">
-            <label for="option2">ты</label>
-        </div>
-        <div>
-            <input type="radio" name="answer" id="option3" value="он">
-            <label for="option3">он</label>
-        </div>
-        <div>
-            <input type="radio" name="answer" id="option4" value="мы">
-            <label for="option4">мы</label>
-        </div>
+<div id="slides-container">
+    <!-- Слайд 1: Местоимение "I" -->
+    <div class="slide active" id="slide-i">
+        <h1>Translate the pronoun "I"</h1>
+        <form class="translation-form" data-pronoun="I">
+            <p>Choose the correct translation for "I":</p>
+            <input type="radio" name="answer" id="i-option1" value="я">
+            <label for="i-option1">я</label>
+            <input type="radio" name="answer" id="i-option2" value="ты">
+            <label for="i-option2">ты</label>
+            <input type="radio" name="answer" id="i-option3" value="он">
+            <label for="i-option3">он</label>
+            <input type="radio" name="answer" id="i-option4" value="мы">
+            <label for="i-option4">мы</label>
+            <br>
+            <button type="submit">Next</button>
+        </form>
+        <div class="feedback"></div>
+    </div>
 
-        <button type="submit">Проверить</button>
-    </form>
+    <!-- Слайд 2: Местоимение "You" -->
+    <div class="slide" id="slide-you">
+        <h1>Translate the pronoun "You"</h1>
+        <form class="translation-form" data-pronoun="You">
+            <p>Choose the correct translation for "You":</p>
+            <input type="radio" name="answer" id="you-option1" value="я">
+            <label for="you-option1">я</label>
+            <input type="radio" name="answer" id="you-option2" value="ты">
+            <label for="you-option2">ты</label>
+            <input type="radio" name="answer" id="you-option3" value="он">
+            <label for="you-option3">он</label>
+            <input type="radio" name="answer" id="you-option4" value="вы">
+            <label for="you-option4">вы</label>
+            <br>
+            <button type="submit">Next</button>
+        </form>
+        <div class="feedback"></div>
+    </div>
 
-    <div id="result"></div>
+    <!-- Слайд 3: Местоимения "He/She/It" -->
+    <div class="slide" id="slide-he-she-it">
+        <h1>Translate the pronouns "He/She/It"</h1>
+        <form class="translation-form" data-pronoun="He/She/It">
+            <p>Choose the correct translation for "He/She/It":</p>
+            <input type="radio" name="answer" id="he-option1" value="я">
+            <label for="he-option1">я</label>
+            <input type="radio" name="answer" id="he-option2" value="ты">
+            <label for="he-option2">ты</label>
+            <input type="radio" name="answer" id="he-option3" value="он">
+            <label for="he-option3">он</label>
+            <input type="radio" name="answer" id="he-option4" value="она/оно">
+            <label for="he-option4">она/оно</label>
+            <br>
+            <button type="submit">Finish</button>
+        </form>
+        <div class="feedback"></div>
+    </div>
+
+    <!-- Слайд с результатами -->
+    <div class="slide" id="result-slide">
+        <h1>Your Results</h1>
+        <div id="total-result"></div>
+        <button id="restart-btn">Start Again</button>
+    </div>
 </div>
 
 <script>
     $(document).ready(function() {
-        $('#translation-form').on('submit', function(e) {
-            e.preventDefault();
+        let results = {};
+        const slides = $('.slide');
+        let currentSlideIndex = 0;
 
-            var selectedAnswer = $('input[name="answer"]:checked').val();
-            var lessonId = $('#lessonId').val();
+        function updateProgress() {
+            const progressPercentage = (currentSlideIndex / (slides.length - 1)) * 100;
+            $('#progress').css('width', `${progressPercentage}%`);
+        }
+
+        function showNextSlide() {
+            $(slides[currentSlideIndex]).removeClass('active');
+            currentSlideIndex++;
+            $(slides[currentSlideIndex]).addClass('active');
+            updateProgress();
+        }
+
+        $('.translation-form').on('submit', function(e) {
+            e.preventDefault();
+            const pronoun = $(this).data('pronoun');
+            const selectedAnswer = $(this).find('input[name="answer"]:checked').val();
 
             $.ajax({
-                url: '/learn/eng/practice/' + lessonId + '/submit',
+                url: '/learn/eng/practice/submit',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
+                    pronoun: pronoun,
                     answer: selectedAnswer
                 }),
                 success: function(response) {
-                    $('#result').text(response);
+                    // Сохраняем результат
+                    results[pronoun] = response.correct;
+
+                    // Показываем фидбэк
+                    $(e.target).siblings('.feedback').text(response.feedback);
+
+                    // Автоматический переход к следующему слайду через 1.5 сек
+                    setTimeout(showNextSlide, 1500);
                 },
                 error: function() {
-                    $('#result').text('Ошибка при проверке ответа');
+                    alert('Ошибка при проверке ответа');
                 }
             });
         });
+
+        // Обработка последнего слайда (результаты)
+        function showFinalResults() {
+            let correctCount = Object.values(results).filter(result => result).length;
+            let totalQuestions = Object.keys(results).length;
+
+            $('#total-result').html(`
+                <p>Правильных ответов: ${correctCount} из ${totalQuestions}</p>
+                <p>Результат: ${Math.round((correctCount/totalQuestions)*100)}%</p>
+            `);
+        }
+
+        // Кнопка перезапуска
+        $('#restart-btn').on('click', function() {
+            results = {};
+            currentSlideIndex = 0;
+            slides.removeClass('active');
+            $(slides[0]).addClass('active');
+            $('.feedback').empty();
+            updateProgress();
+        });
+
+        // Последний слайд
+        $(slides[slides.length - 1]).on('active', showFinalResults);
     });
 </script>
 </body>
