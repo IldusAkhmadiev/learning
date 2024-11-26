@@ -31,13 +31,13 @@ public class LanguageRestController {
     ) {
         // Для текущей реализации используем старый метод
         boolean isCorrect = practiceService.checkPronounTranslation(
-                answerDTO.getPronoun(),
+                answerDTO.getQuestion(),
                 answerDTO.getAnswer()
         );
 
         // Получаем обратную связь
         String feedback = practiceService.getAnswerFeedback(
-                answerDTO.getPronoun(),
+                answerDTO.getQuestion(),
                 isCorrect
         );
 
@@ -51,10 +51,11 @@ public class LanguageRestController {
             @PathVariable Long lessonId,
             @RequestBody LessonAnswerDTO answerDTO
     ) {
-        boolean isCorrect = practiceService.checkLessonAnswer(lessonId, answerDTO.getAnswer());
+//        boolean isCorrect = practiceService.checkLessonAnswer(lessonId, answerDTO.getAnswer());
+//
+//        String feedback = practiceService.generateLessonFeedback(lessonId, isCorrect);
 
-        String feedback = practiceService.generateLessonFeedback(lessonId, isCorrect);
-
-        return ResponseEntity.ok(new LessonResultDTO(isCorrect, feedback));
+//        return ResponseEntity.ok(new LessonResultDTO(isCorrect, feedback));
+        return ResponseEntity.ok(new LessonResultDTO(true,"Просто верно"));
     }
 }

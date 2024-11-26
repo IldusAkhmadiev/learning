@@ -1,75 +1,104 @@
-$(document).ready(function () {
-    let results = {}; // Хранение результатов
-    const slides = $('.slide'); // Все слайды
-    let currentSlideIndex = 0; // Индекс текущего слайда
+$(document).ready(function() {
+    let results = {};
+    const slides = $('.slide');
+    let currentSlideIndex = 0;
 
-    // Функция обновления прогресс-бара
     function updateProgress() {
-        const progressPercentage = (currentSlideIndex / (slides.length - 1)) * 100;
+        const progressPercentage = (currentSlideIndex / (slides.length - 2)) * 100; // -2 чтобы игнорировать результативный слайд
         $('#progress').css('width', `${progressPercentage}%`);
+        console.log(`Progress updated: ${progressPercentage}%`);
     }
 
-    // Функция отображения следующего слайда
     function showNextSlide() {
-        $(slides[currentSlideIndex]).removeClass('active'); // Скрываем текущий слайд
-        currentSlideIndex++; // Переход к следующему слайду
-        if (currentSlideIndex < slides.length) {
-            $(slides[currentSlideIndex]).addClass('active'); // Показываем следующий слайд
-            updateProgress();
+        console.log(`Hiding slide ${currentSlideIndex}`);
+        $(slides[currentSlideIndex]).removeClass('active');
+        currentSlideIndex++;
+        if (currentSlideIndex < slides.length - 1) { // -1 чтобы игнорировать результативный слайд
+            console.log(`Showing slide ${currentSlideIndex}`);
+            $(slides[currentSlideIndex]).addClass('active');
+            enableAnswerSelection(); // Разблокируем варианты ответов для следующего слайда
+        } else {
+            showFinalResults();
         }
+        updateProgress();
     }
 
-    // Обработка отправки формы
-    $('.translation-form').on('submit', function (e) {
-        e.preventDefault(); // Отключаем стандартное поведение формы
-        const pronoun = $(this).data('pronoun');
-        const selectedAnswer = $(this).find('input[name="answer"]:checked').val();
+    function enableAnswerSelection() {
+        const currentForm = $(slides[currentSlideIndex]).find('.translation-form');
+        currentForm.find('input[name="answer"]').prop('disabled', false);
+        currentForm.find('button[type="submit"]').text('Submit').off('click').on('click', submitAnswer).prop('disabled', false);
+        $(slides[currentSlideIndex]).find('.feedback').empty();
+        console.log(`Answers re-enabled for slide ${currentSlideIndex}`);
+    }
 
-        // Отправка ответа на сервер
-        $.ajax({
-            url: '/learn/eng/practice/submit',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ pronoun, answer: selectedAnswer }),
-            success: function (response) {
-                results[pronoun] = response.correct; // Сохраняем результат
-                const feedbackEl = $(e.target).siblings('.feedback');
-                feedbackEl.text(response.feedback).css('color', response.correct ? 'green' : 'red');
-
-                // Автоматический переход к следующему слайду через 1.5 сек
-                setTimeout(() => {
-                    if (currentSlideIndex === slides.length - 2) {
-                        showFinalResults(); // Если это последний вопрос
-                    }
-                    showNextSlide();
-                }, 1500);
-            },
-            error: function () {
-                alert('Ошибка при проверке ответа');
-            }
-        });
-    });
-
-    // Отображение результатов на последнем слайде
     function showFinalResults() {
-        const correctCount = Object.values(results).filter(Boolean).length;
-        const totalQuestions = Object.keys(results).length;
+        $(slides[slides.length - 1]).addClass('active'); // Показываем последний слайд с результатами
+        let correctCount = Object.values(results).filter(result => result).length;
+        let totalQuestions = Object.keys(results).length;
         $('#total-result').html(`
             <p>Правильных ответов: ${correctCount} из ${totalQuestions}</p>
             <p>Результат: ${Math.round((correctCount / totalQuestions) * 100)}%</p>
         `);
+        console.log('Final results shown');
     }
 
-    // Кнопка для перезапуска
-    $('#restart-btn').on('click', function () {
-        results = {}; // Сброс результатов
-        currentSlideIndex = 0; // Сбрасываем индекс
-        slides.removeClass('active'); // Скрываем все слайды
-        $(slides[0]).addClass('active'); // Показываем первый слайд
-        $('.feedback').empty(); // Очищаем фидбэк
-        updateProgress(); // Обновляем прогресс
+    function submitAnswer(e) {
+        e.preventDefault();
+        const form = $(this).closest('form');
+        const pronoun = form.data('pronoun');
+        const selectedAnswer = form.find('input[name="answer"]:checked').val();
+
+        // Если ответ не выбран, не отправляем запрос
+        if (!selectedAnswer) {
+            alert('Пожалуйста, выберите ответ.');
+            return;
+        }
+
+        $.ajax({
+            url: '/learn/eng/practice/1/submit', // Замените на ваш реальный endpoint
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                pronoun: pronoun,
+                answer: selectedAnswer
+            }),
+            success: function(response) {
+                // Блокируем варианты ответов
+                form.find('input[name="answer"]').prop('disabled', true);
+
+                // Показываем фидбэк
+                form.siblings('.feedback').text(response.feedback);
+
+                // Сохраняем результат
+                results[pronoun] = response.correct;
+
+                // Изменяем текст кнопки и добавляем обработчик для перехода к следующему слайду
+                form.find('button[type="submit"]').text('Next').off('click').on('click', function(e) {
+                    e.preventDefault();
+                    showNextSlide();
+                }).prop('disabled', false);
+
+                console.log('Feedback shown and button text updated to Next');
+            },
+            error: function() {
+                alert('Ошибка при проверке ответа');
+            }
+        });
+    }
+
+    $('.translation-form').on('submit', submitAnswer);
+
+    $('#restart-btn').on('click', function() {
+        results = {};
+        currentSlideIndex = 0;
+        slides.removeClass('active');
+        $(slides[0]).addClass('active');
+        enableAnswerSelection(); // Разблокируем варианты ответа для первого слайда
+        updateProgress();
     });
 
-    // Обновляем прогресс-бар при загрузке
+    // Начальная инициализация
     updateProgress();
+    $(slides[0]).addClass('active'); // Убедимся, что первый слайд виден при загрузке страницы
+    console.log('Initial slide shown');
 });

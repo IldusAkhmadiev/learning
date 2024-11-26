@@ -1,25 +1,35 @@
 package com.github.ildus_akhmadiev.learning.dto;
 
 public class LessonAnswerDTO {
-    private String pronoun;
+    private String lessonId;
+    private String question;
     private String answer;
 
     // Конструктор по умолчанию
     public LessonAnswerDTO() {}
 
     // Конструктор с параметрами
-    public LessonAnswerDTO(String pronoun, String answer) {
-        this.pronoun = pronoun;
+    public LessonAnswerDTO(String lessonId,String question, String answer) {
+        this.lessonId = lessonId;
+        this.question = question;
         this.answer = answer;
     }
 
-    // Геттеры и сеттеры
-    public String getPronoun() {
-        return pronoun;
+
+    public String getLessonId() {
+        return lessonId;
     }
 
-    public void setPronoun(String pronoun) {
-        this.pronoun = pronoun;
+    public void setLessonId(String lessonId) {
+        this.lessonId = lessonId;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     public String getAnswer() {

@@ -1,38 +1,57 @@
-/* Общий стиль для слайдов */
+.progress-bar {
+    width: 100%; /* Match container width */
+    height: 10px; /* Adjust height as needed */
+    background-color: #ddd;
+    border-radius: 5px; /* Rounded corners */
+    overflow: hidden; /* Prevent progress bar content from overflowing */
+}
+
+.progress {
+    height: 100%; /* Match container height */
+    background-color: #007bff; /* Progress bar color */
+    transition: width 0.5s ease-in-out; /* Smooth transition for progress update */
+}
+
+/* Slide container styles (adjust as needed) */
+#slides-container {
+    width: 100%;
+}
+
 .slide {
-    display: none; /* Все слайды скрыты по умолчанию */
     text-align: center;
     padding: 20px;
+    display: none; /* Hide all slides initially */
 }
 
-/* Активный слайд отображается */
 .slide.active {
-    display: block;
+    display: block; /* Show the active slide */
 }
 
-/* Стиль слайда с результатами */
-#result-slide {
-    background-color: #f0f0f0;
-}
-
-/* Прогресс-бар */
-.progress-bar {
-    width: 100%;
-    height: 10px;
-    background-color: #e0e0e0;
-    margin-bottom: 20px;
-}
-
-/* Индикатор прогресса */
-.progress {
-    height: 100%;
-    background-color: #4CAF50;
-    width: 0; /* Начальное значение */
-    transition: width 0.5s ease; /* Плавное изменение ширины */
-}
-
-/* Стиль фидбэка */
+/* Feedback styles (adjust as needed) */
 .feedback {
-    margin-top: 10px;
-    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Result slide styles (adjust as needed) */
+#result-slide {
+    display: none; /* Hide results slide initially */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide.active#result-slide {
+    display: flex; /* Show results slide when active */
+}
+
+#total-result {
+    font-size: 20px;
+}
+
+#restart-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
 }
