@@ -33,7 +33,18 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // Создаем нового пользователя и сохраняем в базе данных
         User user = new User(email, username);
-        userRepository.save(user);
+        User existingUser = userRepository.findByEmail(user.getEmail());
+
+        if (existingUser == null) {
+            // Если пользователь с таким email не существует, сохраняем нового
+            userRepository.save(user);
+        } else {
+            // Если пользователь существует, можно обновить его данные
+            existingUser.setUsername(user.getUsername()); // Пример обновления
+            // Добавь другие обновляемые поля
+            userRepository.save(existingUser);
+        }
+
         // Перенаправляем на домашнюю страницу или страницу после успешной аутентификации
         response.sendRedirect("/list");
     }

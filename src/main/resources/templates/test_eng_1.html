@@ -2,9 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Learn English</title>
+    <title>Practice Lesson</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<p>Тут будет практика)))но пока его нет))</p>
+<h1>Translate the pronoun "I"</h1>
+
+<div id="question-container">
+    <p>Choose the correct translation for "I":</p>
+    <form id="translation-form">
+        <input type="hidden" id="lessonId" value="pronouns_lesson_1">
+        <div>
+            <input type="radio" name="answer" id="option1" value="я">
+            <label for="option1">я</label>
+        </div>
+        <div>
+            <input type="radio" name="answer" id="option2" value="ты">
+            <label for="option2">ты</label>
+        </div>
+        <div>
+            <input type="radio" name="answer" id="option3" value="он">
+            <label for="option3">он</label>
+        </div>
+        <div>
+            <input type="radio" name="answer" id="option4" value="мы">
+            <label for="option4">мы</label>
+        </div>
+
+        <button type="submit">Проверить</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#translation-form').on('submit', function(e) {
+            e.preventDefault();
+
+            var selectedAnswer = $('input[name="answer"]:checked').val();
+            var lessonId = $('#lessonId').val();
+
+            $.ajax({
+                url: '/learn/eng/practice/' + lessonId + '/submit',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    answer: selectedAnswer
+                }),
+                success: function(response) {
+                    $('#result').text(response);
+                },
+                error: function() {
+                    $('#result').text('Ошибка при проверке ответа');
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
