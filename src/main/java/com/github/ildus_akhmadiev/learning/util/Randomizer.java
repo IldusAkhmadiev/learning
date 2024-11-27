@@ -1,9 +1,6 @@
 package com.github.ildus_akhmadiev.learning.util;
 
-import com.github.ildus_akhmadiev.learning.repository.Lesson;
 import com.github.ildus_akhmadiev.learning.repository.Lesson1_eng;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,9 +8,9 @@ import java.util.List;
 
 public class Randomizer {
 
-    private Lesson lesson;
+    private Lesson1_eng lesson;
 
-    public Randomizer(Lesson lesson) {
+    public Randomizer(Lesson1_eng lesson) {
         this.lesson = lesson;
     }
 

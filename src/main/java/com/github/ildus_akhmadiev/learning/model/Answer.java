@@ -3,24 +3,20 @@ package com.github.ildus_akhmadiev.learning.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
-public class Question {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
     private String text;
-    private String questionType;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    private boolean correct;
+    private String feedback;
 
     // Getters and setters
 }

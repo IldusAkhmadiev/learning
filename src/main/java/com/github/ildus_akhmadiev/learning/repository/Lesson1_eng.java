@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class Lesson1_eng implements Lesson{
+public class Lesson1_eng {
     public List<String> getQuestions() {
         return new ArrayList<>(Arrays.asList("I","You","We","He","She","It"
         ));
