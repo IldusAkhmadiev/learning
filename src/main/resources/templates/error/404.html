@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>404 - Страница не найдена</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        .message {
+            font-size: 2em;
+            color: #dc3545;
+        }
+        .link {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="message">404 - К сожалению, такой страницы нет</div>
+    <a class="link" th:href="@{/}">Вернуться в главное меню</a>
+</div>
+</body>
+</html>

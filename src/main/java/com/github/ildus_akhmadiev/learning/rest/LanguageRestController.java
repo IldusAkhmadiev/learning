@@ -34,7 +34,7 @@ public class LanguageRestController {
         Answer answer = lessonService.getAnswerByQuestionIdAndText(
                 Integer.valueOf(answerDTO.getLessonId()), answerDTO.getAnswer());
         if(answer == null) {
-            ResponseEntity.ok(new LessonResultDTO(false,"Отсутствует ответ");
+            ResponseEntity.ok(new LessonResultDTO(false,"Отсутствует ответ"));
         }
 
         return ResponseEntity.ok(new LessonResultDTO(answer.isCorrect(),answer.getFeedback()));
