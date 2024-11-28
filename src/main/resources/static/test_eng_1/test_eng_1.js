@@ -2,6 +2,7 @@ $(document).ready(function() {
     let results = {};
     const slides = $('.slide');
     let currentSlideIndex = 0;
+    const lessonId = $("meta[name='lessonId']").attr("content");
 
     function updateProgress() {
         const progressPercentage = (currentSlideIndex / (slides.length - 2)) * 100; // -2 чтобы игнорировать результативный слайд
@@ -55,11 +56,12 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: '/learn/eng/practice/1/submit', // Замените на ваш реальный endpoint
+            url: '/learn/eng/practice/' + 1+ '/submit', // Динамический lessonId
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-                pronoun: pronoun,
+                lessonId: lessonId,
+                question: pronoun,
                 answer: selectedAnswer
             }),
             success: function(response) {

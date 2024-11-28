@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="lessonId" content="1">
     <title>English Pronouns Practice</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/test_eng_1/test_eng_1.css">
@@ -13,16 +14,16 @@
 </div>
 
 <div id="slides-container">
-    <div th:each="question, questionStat : ${questions}">
-        <div th:class="${questionStat.index == 0} ? 'slide active' : 'slide'" th:id="${questionStat.index}">
-            <h1>Translate the pronoun: <span th:text="${question}"></span></h1>
-            <form class="translation-form" th:data-pronoun="${question}">
+    <div th:each="questionStat, iterStat : ${questionsWithAnswersByLessonId}">
+        <div th:class="${iterStat.index == 0} ? 'slide active' : 'slide'" th:id="${iterStat.index}">
+            <h1>Translate the pronoun: <span th:text="${questionStat.questionText}"></span></h1>
+            <form class="translation-form" th:data-pronoun="${questionStat.questionText}">
                 <p>Choose the correct translation:</p>
-                <div th:each="answer, answerStat : ${answers}">
+                <div th:each="answer, answerStat : ${questionStat.answers}">
                     <input type="radio" th:name="answer"
-                           th:id="${questionStat.index}-${answerStat.index}"
+                           th:id="${iterStat.index}-${answerStat.index}"
                            th:value="${answer}">
-                    <label th:for="${questionStat.index}-${answerStat.index}">
+                    <label th:for="${iterStat.index}-${answerStat.index}">
                         <span th:text="${answer}"></span>
                     </label><br>
                 </div>
