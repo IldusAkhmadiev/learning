@@ -1,7 +1,7 @@
 package com.github.ildus_akhmadiev.learning.dto;
 
 public class LessonAnswerDTO {
-    private String lessonId;
+    private Integer questionId;
     private String question;
     private String answer;
 
@@ -9,19 +9,19 @@ public class LessonAnswerDTO {
     public LessonAnswerDTO() {}
 
     // Конструктор с параметрами
-    public LessonAnswerDTO(String lessonId,String question, String answer) {
-        this.lessonId = lessonId;
+    public LessonAnswerDTO(Integer question_id,String question, String answer) {
+        this.questionId = question_id;
         this.question = question;
         this.answer = answer;
     }
 
 
-    public String getLessonId() {
-        return lessonId;
+    public Integer getQuestionId() {
+        return questionId;
     }
 
-    public void setLessonId(String lessonId) {
-        this.lessonId = lessonId;
+    public void setLessonId(Integer question_id) {
+        this.questionId = question_id;
     }
 
     public String getQuestion() {

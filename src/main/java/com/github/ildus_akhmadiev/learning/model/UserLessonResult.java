@@ -18,20 +18,15 @@ public class UserLessonResult {
     private Long id;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     @Column(name = "lesson_id")
     private Long lessonId;
 
-    @Column(name = "is_correct")
-    private boolean isCorrect;
-
-    @Column(name = "user_answer")
-    private String userAnswer;
+    @Column(name = "result_percent")
+    private Double resultPercent;
 
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
-
-    // Геттеры и сеттеры
 
 }

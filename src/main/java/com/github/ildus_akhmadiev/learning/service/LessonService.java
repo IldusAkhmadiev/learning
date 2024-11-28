@@ -44,7 +44,7 @@ public class LessonService {
     public Question findByQuestionText(String questionText) {
         return questionRepository.findByText(questionText);
     }
-    public Integer getQuestionIdByQuestionText(String questionText) {
+    public Integer getQuestionIdByText(String questionText) {
         return questionRepository.getQuestionIdByText(questionText);
     }
     public Answer getAnswerByQuestionIdAndText(Integer questionId, String text) {

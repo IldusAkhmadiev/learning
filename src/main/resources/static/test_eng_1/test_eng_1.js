@@ -3,7 +3,8 @@ $(document).ready(function() {
     const slides = $('.slide');
     let currentSlideIndex = 0;
     const lessonId = $("meta[name='lessonId']").attr("content");
-
+    const userId = $("input[name='userId']").val(); // Получение значения из скрытого поля
+    console.log(userId);
     function updateProgress() {
         const progressPercentage = (currentSlideIndex / (slides.length - 2)) * 100; // -2 чтобы игнорировать результативный слайд
         $('#progress').css('width', `${progressPercentage}%`);
@@ -36,10 +37,31 @@ $(document).ready(function() {
         $(slides[slides.length - 1]).addClass('active'); // Показываем последний слайд с результатами
         let correctCount = Object.values(results).filter(result => result).length;
         let totalQuestions = Object.keys(results).length;
+        let resultPercent = Math.round((correctCount / totalQuestions) * 100);
+
         $('#total-result').html(`
             <p>Правильных ответов: ${correctCount} из ${totalQuestions}</p>
-            <p>Результат: ${Math.round((correctCount / totalQuestions) * 100)}%</p>
+            <p>Результат: ${resultPercent}%</p>
         `);
+
+        $.ajax({
+            url: '/learn/eng/practice/results',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                userId: userId,
+                lessonId: lessonId,
+                resultPercent: resultPercent,
+                completedAt: new Date().toISOString()
+            }),
+            success: function(response) {
+                console.log('Result saved successfully.');
+            },
+            error: function() {
+                alert('Ошибка при сохранении результата.');
+            }
+        });
+
         console.log('Final results shown');
     }
 
@@ -48,6 +70,7 @@ $(document).ready(function() {
         const form = $(this).closest('form');
         const pronoun = form.data('pronoun');
         const selectedAnswer = form.find('input[name="answer"]:checked').val();
+        const questionId = form.find('input[name="questionId"]').val();
 
         // Если ответ не выбран, не отправляем запрос
         if (!selectedAnswer) {
@@ -56,11 +79,11 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: '/learn/eng/practice/' + 1+ '/submit', // Динамический lessonId
+            url: '/learn/eng/practice/' + lessonId + '/submit', // Динамический lessonId
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-                lessonId: lessonId,
+                questionId: questionId,
                 question: pronoun,
                 answer: selectedAnswer
             }),
@@ -83,7 +106,7 @@ $(document).ready(function() {
                 console.log('Feedback shown and button text updated to Next');
             },
             error: function() {
-                alert('Ошибка при проверке ответа');
+                alert('Ошибка при проверке ответа.');
             }
         });
     }
