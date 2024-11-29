@@ -24,7 +24,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private UserRepository userRepository;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
 
         // Извлекаем имя пользователя и email из Google OAuth2

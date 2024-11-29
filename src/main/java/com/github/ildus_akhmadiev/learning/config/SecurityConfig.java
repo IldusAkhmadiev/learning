@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // Остальные запросы требуют аутентификации
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login") // Кастомная страница логина
+                        .loginPage("/index") // Кастомная страница логина
                         .successHandler(oauth2LoginSuccessHandler) // Подключение кастомного SuccessHandler
                 )
                 .cors() // Включаем CORS для всего приложения
