@@ -28,4 +28,12 @@ public interface UserLessonResultRepository extends JpaRepository<UserLessonResu
             "FROM UserLessonResult u " +
             "GROUP BY u.lessonId")
     List<LessonResultSummaryDTO> findBestResultAndAttemptCountByLessonId();
+
+    @Query("SELECT new com.github.ildus_akhmadiev.learning.dto.LessonResultSummaryDTO(" +
+            "u.lessonId, MAX(u.resultPercent), COUNT(u)) " +
+            "FROM UserLessonResult u " +
+            "WHERE u.userId = :userId " +
+            "GROUP BY u.lessonId")
+    List<LessonResultSummaryDTO> findBestResultAndAttemptCountByLessonId(@Param("userId") String userId);
+
 }

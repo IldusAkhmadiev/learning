@@ -50,4 +50,8 @@ public class UserLessonResultService {
     public List<LessonResultSummaryDTO> getBestResultAndAttemptCountByLessonId() {
         return userLessonResultRepository.findBestResultAndAttemptCountByLessonId();
     }
+
+    public List<LessonResultSummaryDTO> getBestResultAndAttemptCountByLessonId(String userId) {
+        return userLessonResultRepository.findBestResultAndAttemptCountByLessonId(userId);
+    }
 }
