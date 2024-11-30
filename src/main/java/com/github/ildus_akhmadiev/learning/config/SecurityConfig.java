@@ -25,11 +25,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/login", "/api/docs/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Разрешаем доступ к Swagger UI и API docs
+                        .requestMatchers("/index", "/login", "/api/docs/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Разрешаем доступ к Swagger UI и API docs
                         .anyRequest().authenticated() // Остальные запросы требуют аутентификации
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/index") // Кастомная страница логина
+                        .loginPage("/login") // Кастомная страница логина
                         .successHandler(oauth2LoginSuccessHandler) // Подключение кастомного SuccessHandler
                 )
                 .cors() // Включаем CORS для всего приложения
