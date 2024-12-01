@@ -1,0 +1,52 @@
+<!-- fragments/header.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Header</title>
+</head>
+<body>
+<header th:fragment="header">
+    <style>
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="header">
+        <div class="user-info">
+            <span class="username" th:text="${#authentication.principal.attributes.name}">Username</span>
+            <a class="logout-btn" href="/logout">Выйти</a>
+        </div>
+    </div>
+</header>
+</body>
+</html>

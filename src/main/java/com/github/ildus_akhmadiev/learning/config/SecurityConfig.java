@@ -31,6 +31,9 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login") // Кастомная страница логина
                         .successHandler(oauth2LoginSuccessHandler) // Подключение кастомного SuccessHandler
+                ).logout(logout -> logout
+                        .logoutSuccessUrl("/login")
+                        .permitAll()
                 )
                 .cors() // Включаем CORS для всего приложения
                 .and()
