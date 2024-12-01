@@ -34,18 +34,46 @@ public class LanguageController {
         // Здесь возвращается имя шаблона, например "learn_english.html"
         return "learn_english";
     }
-    // Путь для практики с динамическим идентификатором урока
+
     @GetMapping("/learn/eng/practice/{lessonId}")
-    public String practice(@PathVariable Integer lessonId, Model model,
-                           @AuthenticationPrincipal OAuth2User oAuth2User)
-    {
+    public String practice(
+            @PathVariable Integer lessonId,
+            @RequestParam(defaultValue = "7") int optionsCount, // Добавлен параметр запроса
+            Model model,
+            @AuthenticationPrincipal OAuth2User oAuth2User) {
+
         String userId = oAuth2User.getAttribute("sub"); // Уникальный идентификатор пользователя Google
         model.addAttribute("userId", userId);
-        // Вернем страницу для этого урока, например: test_eng_1.html, test_eng_2.html и т.д.
-        model.addAttribute("lessonId", lessonId); // передаем lessonId в модель
-        List<QuestionWithAnswersDTO> questionsWithAnswersByLessonId = lessonService.getQuestionsWithAnswersByLessonId(lessonId);
+
+        // Передаем lessonId в модель
+        model.addAttribute("lessonId", lessonId);
+
+        // Получаем вопросы с ответами, используя переданное количество вариантов
+        List<QuestionWithAnswersDTO> questionsWithAnswersByLessonId =
+                lessonService.getQuestionsWithAnswersByLessonId(lessonId, optionsCount);
         model.addAttribute("questionsWithAnswersByLessonId", questionsWithAnswersByLessonId);
+
+        // Возвращаем страницу, например: test_eng_1.html, test_eng_2.html и т.д.
         return "test_eng_" + lessonId;
     }
 
+    @GetMapping("/learn/eng/theory/{lessonId}")
+    public String theory(
+            @PathVariable Integer lessonId,
+            Model model,
+            @AuthenticationPrincipal OAuth2User oAuth2User) {
+
+        String userId = oAuth2User.getAttribute("sub"); // Уникальный идентификатор пользователя Google
+        model.addAttribute("userId", userId);
+
+        // Передаем lessonId в модель
+        model.addAttribute("lessonId", lessonId);
+
+        // Возвращаем страницу теории, например: theory_eng_1.html, theory_eng_2.html и т.д.
+        return "theory_eng_" + lessonId;
+    }
+
+
 }
+
+

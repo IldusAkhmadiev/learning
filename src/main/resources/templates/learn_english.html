@@ -3,9 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title>Learn English</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 50px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .disabled {
+            background-color: #d3d3d3;
+            cursor: not-allowed;
+        }
+        input[type="number"] {
+            font-size: 18px;
+            padding: 5px;
+            width: 50px;
+            text-align: center;
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
 <p>Выберите урок</p>
-<button th:onclick="'window.location.href=\'/learn/eng/practice/1\''">Урок 1 практика</button>
+<label for="optionsCount">Количество вариантов ответов для тестов (от 2 до 10):</label>
+<input type="number" id="optionsCount" name="optionsCount" min="2" max="7" value="7">
+<br>
+<!-- Кнопки для выбора уроков -->
+<button onclick="startLesson(1, 'practice')">Урок 1 практика</button>
+<button onclick="startLesson(1, 'theory')">Урок 1 теория</button>
+<button class="disabled" onclick="alert('Урок 2 еще не готов')">Урок 2 практика</button>
+<button class="disabled" onclick="alert('Урок 2 еще не готов')">Урок 2 теория</button>
+<button class="disabled" onclick="alert('Урок 3 еще не готов')">Урок 3 практика</button>
+<button class="disabled" onclick="alert('Урок 3 еще не готов')">Урок 3 теория</button>
+<button class="disabled" onclick="alert('Урок 4 еще не готов')">Урок 4 практика</button>
+<button class="disabled" onclick="alert('Урок 4 еще не готов')">Урок 4 теория</button>
+<button class="disabled" onclick="alert('Урок 5 еще не готов')">Урок 5 практика</button>
+<button class="disabled" onclick="alert('Урок 5 еще не готов')">Урок 5 теория</button>
+<button class="disabled" onclick="alert('Урок 6 еще не готов')">Урок 6 практика</button>
+<button class="disabled" onclick="alert('Урок 6 еще не готов')">Урок 6 теория</button>
+<button class="disabled" onclick="alert('Урок 7 еще не готов')">Урок 7 практика</button>
+<button class="disabled" onclick="alert('Урок 7 еще не готов')">Урок 7 теория</button>
+
+<script>
+    function startLesson(lessonId, type) {
+        if (lessonId === 1) {
+            const optionsCount = document.getElementById('optionsCount').value;
+            window.location.href = `/learn/eng/${type}/${lessonId}?optionsCount=${optionsCount}`;
+        } else {
+            alert(`Урок ${lessonId} еще не готов`);
+        }
+    }
+</script>
 </body>
 </html>
+

@@ -31,19 +31,18 @@ public class LanguageRestController {
 
     }
 
-    // Метод для работы с уроками из БД (будущая реализация)
     @PostMapping("/{lessonId}/submit")
     public ResponseEntity<LessonResultDTO> submitLessonAnswer(
             @PathVariable Long lessonId,
             @RequestBody LessonAnswerDTO answerDTO
     ) {
-        Answer answer = lessonService.getAnswerByQuestionIdAndText(
-                Integer.valueOf(answerDTO.getQuestionId()), answerDTO.getAnswer());
-        if(answer == null) {
-            ResponseEntity.ok(new LessonResultDTO(false,"Отсутствует ответ"));
-        }
+        // Проверяем, существует ли ответ
+        Answer answer = lessonService.getTextByQuestionId(answerDTO.getQuestionId());
 
-        return ResponseEntity.ok(new LessonResultDTO(answer.isCorrect(),answer.getFeedback()));
+        if (answer.getText().equals(answerDTO.getAnswer())) {
+            return ResponseEntity.ok(new LessonResultDTO(true,"Верно" ));
+        }
+        return ResponseEntity.ok(new LessonResultDTO(false, "Неверно"));
     }
 
     @PostMapping("/results")

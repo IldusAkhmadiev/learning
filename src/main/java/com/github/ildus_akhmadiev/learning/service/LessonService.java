@@ -26,6 +26,9 @@ public class LessonService {
     @Autowired
     private AnswerRepository answerRepository;
 
+    @Autowired
+    private QuizService quizService; // Добавлен сервис для генерации ответов
+
     public Lesson getLessonById(Integer lessonId) {
         return lessonRepository.findById(lessonId).orElseThrow(() -> new RuntimeException("Lesson not found"));
     }
@@ -41,17 +44,16 @@ public class LessonService {
     public Answer getCorrectAnswerByQuestionId(Integer questionId) {
         return answerRepository.findByQuestionIdAndCorrectIsTrue(questionId);
     }
-    public Question findByQuestionText(String questionText) {
-        return questionRepository.findByText(questionText);
+    public Answer getCorrectAnswerByQuestion(String question) {
+        return answerRepository.findByText(question);
     }
-    public Integer getQuestionIdByText(String questionText) {
-        return questionRepository.getQuestionIdByText(questionText);
-    }
-    public Answer getAnswerByQuestionIdAndText(Integer questionId, String text) {
-        return answerRepository.getAnswerByQuestionIdAndText(questionId, text);
+    public Answer getTextByQuestionId(Integer questionId) {
+        return answerRepository.getTextByQuestionId(questionId);
     }
 
-    public List<QuestionWithAnswersDTO> getQuestionsWithAnswersByLessonId(Integer lessonId) {
+
+
+    public List<QuestionWithAnswersDTO> getQuestionsWithAnswersByLessonId(Integer lessonId, int totalOptions) {
         // Получаем все вопросы для урока
         List<Question> questions = questionRepository.findByLessonId(lessonId);
 
@@ -59,19 +61,21 @@ public class LessonService {
         List<QuestionWithAnswersDTO> dtos = new ArrayList<>();
 
         for (Question question : questions) {
-            // Получаем ответы для каждого вопроса
-            List<Answer> answers = answerRepository.findByQuestionId(question.getId());
+            // Получаем правильный ответ для вопроса
+            Answer correctAnswer = getCorrectAnswerByQuestionId(question.getId());
 
-            // Извлекаем текст ответов
-            List<String> answerTexts = answers.stream()
-                    .map(Answer::getText)
-                    .toList();
+            if (correctAnswer == null) {
+                throw new RuntimeException("Correct answer not found for question ID: " + question.getId());
+            }
+
+            // Генерируем варианты ответов
+            List<String> options = quizService.generateOptions(correctAnswer.getText(), totalOptions);
 
             // Создаем DTO
             QuestionWithAnswersDTO dto = new QuestionWithAnswersDTO(
                     question.getId(),
                     question.getText(),
-                    answerTexts
+                    options
             );
 
             // Добавляем DTO в список
@@ -80,6 +84,4 @@ public class LessonService {
 
         return dtos;
     }
-
 }
-
