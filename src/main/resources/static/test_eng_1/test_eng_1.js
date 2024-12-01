@@ -126,4 +126,13 @@ $(document).ready(function() {
     updateProgress();
     $(slides[0]).addClass('active'); // Убедимся, что первый слайд виден при загрузке страницы
     console.log('Initial slide shown');
+
+    // Получаем кнопку по ее ID
+    const restartButton = document.getElementById('go_home');
+
+// Назначаем обработчик события для клика
+    restartButton.addEventListener('click', () => {
+        // Перенаправляем пользователя на указанный URL
+        window.location.href = 'http://localhost:8080/learn/eng';
+    });
 });

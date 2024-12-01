@@ -1,7 +1,9 @@
 package com.github.ildus_akhmadiev.learning.controller;
 
 import com.github.ildus_akhmadiev.learning.dto.LessonResultSummaryDTO;
+import com.github.ildus_akhmadiev.learning.model.User;
 import com.github.ildus_akhmadiev.learning.model.UserLessonResult;
+import com.github.ildus_akhmadiev.learning.repository.UserRepository;
 import com.github.ildus_akhmadiev.learning.service.UserLessonResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,15 +19,14 @@ public class IndexController {
 
     @Autowired
     private UserLessonResultService userLessonResultService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/")
-    public String index (Model model,
-                         @AuthenticationPrincipal OAuth2User oAuth2User) {
-
-        String userId = oAuth2User.getAttribute("sub"); // Уникальный идентификатор пользователя Google
-        List<LessonResultSummaryDTO> bestResultAndAttemptCountByLessonId =
-                userLessonResultService.getBestResultAndAttemptCountByLessonId(userId);
-        model.addAttribute("totalAttempts", bestResultAndAttemptCountByLessonId);
+    public String index (Model model) {
+        // Получаем всех пользователей, которые прошли аутентификацию через Google
+        List<User> users = userRepository.findAll();
+        model.addAttribute("users", users);
         return "index";
     }
 }

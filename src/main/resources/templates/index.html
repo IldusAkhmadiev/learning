@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Результаты уроков</title>
-    <link rel="stylesheet" th:href="@{/index/index.css}" />
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" href="/index/index.css">
 </head>
 <body>
-<div class="container">
-    <h1>Результаты уроков</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>Урок</th>
-            <th>Лучший результат (%)</th>
-            <th>Количество попыток</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="result : ${totalAttempts}">
-            <td th:text="${result.lessonId}"></td>
-            <td th:text="${result.bestResultPercent}"></td>
-            <td th:text="${result.attemptCount}"></td>
-        </tr>
-        </tbody>
-    </table>
+<h1>Выбери язык</h1>
+<div>
+    <!-- Кнопка для английского языка -->
+    <button class="language-btn" onclick="window.location.href='/learn/eng'">English</button>
+    <!-- Кнопка для арабского языка, помечена как недоступная -->
+    <button class="language-btn disabled" disabled>Arabic (Пока недоступно)</button>
 </div>
+
+<h1>Пользователи которые зарегистрировались у нас</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Пользователи: </th>
+    </tr>
+    </thead>
+    <tbody id="user-list">
+    <tr th:each="user : ${users}">
+        <td th:text="${user.username}">Username</td>
+    </tr>
+    </tbody>
+</table>
+
+<script src="/index/index.js"></script>
 </body>
 </html>

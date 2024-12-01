@@ -47,6 +47,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         }
 
         // Перенаправляем на домашнюю страницу или страницу после успешной аутентификации
-        response.sendRedirect("/list");
+        response.sendRedirect("/");
     }
 }
