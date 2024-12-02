@@ -1,0 +1,186 @@
+/* Общие стили */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Заголовок */
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.user-info {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.username {
+    font-weight: bold;
+    color: white;
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* Основное содержимое */
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+main h2 {
+    color: #007bff;
+    font-size: 2em;
+    margin-top: 0;
+}
+
+.introduction p, .nominative-case p {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+/* Таблица местоимений */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: normal;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Списки */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #e9ecef;
+    margin: 10px 0;
+    padding: 15px;
+    border-left: 5px solid #007bff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+ul li ul {
+    margin-top: 10px;
+}
+
+ul li ul li {
+    background-color: transparent;
+    border-left: none;
+    box-shadow: none;
+    padding-left: 0;
+}
+
+/* Подвал */
+footer {
+    text-align: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Кнопка перехода к практике */
+.practice {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.practice:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    .user-info {
+        position: static;
+        transform: none;
+        margin-top: 10px;
+    }
+
+    .practice {
+        width: 100%;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    table th, table td {
+        padding: 10px;
+    }
+}

@@ -1,14 +1,233 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Результаты уроков</title>
-    <link rel="stylesheet" th:href="@{/userList/UserList_index.css}" />
+    <meta charset="UTF-8">
+    <title>English Pronouns Guide</title>
+    <link rel="stylesheet" type="text/css" href="/theory_eng_1/theory_eng_1.css">
+    <script src="/theory_eng_1/theory_eng_1.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            margin-top: 70px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .practice-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .practice {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .practice:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="container">
-    Теория 1 урока.
+
+<main>
+    <!-- Существующие секции контента остаются без изменений -->
+    <section class="introduction">
+        <p>Местоимения делятся на разные виды, например, определённые и неопределённые. Сегодня мы рассмотрим только один из них.</p>
+    </section>
+
+    <section class="pronouns-table">
+        <h2>Местоимения в английском языке</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Местоимение</th>
+                <th>Лицо</th>
+                <th>Число</th>
+                <th>Примечание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>I</td>
+                <td>1-е лицо</td>
+                <td>Единственное</td>
+                <td>Используется для говорящего.</td>
+            </tr>
+            <tr>
+                <td>We</td>
+                <td>1-е лицо</td>
+                <td>Множественное</td>
+                <td>Используется для группы, включающей говорящего.</td>
+            </tr>
+            <tr>
+                <td>You</td>
+                <td>2-е лицо</td>
+                <td>Единственное/Множественное</td>
+                <td>Универсально для обоих чисел.</td>
+            </tr>
+            <tr>
+                <td>He</td>
+                <td>3-е лицо</td>
+                <td>Единственное</td>
+                <td>Для мужчин или самцов животных (известный пол).</td>
+            </tr>
+            <tr>
+                <td>She</td>
+                <td>3-е лицо</td>
+                <td>Единственное</td>
+                <td>Для женщин или самок животных (известный пол).</td>
+            </tr>
+            <tr>
+                <td>It</td>
+                <td>3-е лицо</td>
+                <td>Единственное</td>
+                <td>Для неодушевлённых предметов, абстрактных понятий и животных (если пол неизвестен).</td>
+            </tr>
+            <tr>
+                <td>They</td>
+                <td>3-е лицо</td>
+                <td>Множественное</td>
+                <td>Для групп людей, объектов или животных.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="notes">
+        <h2>Дополнительные замечания</h2>
+        <ul>
+            <li><strong>You:</strong> Употребляется одинаково для единственного и множественного числа.
+                <ul>
+                    <li>Пример: You are kind. (Ты добрый.)</li>
+                    <li>Пример: You are friends. (Вы друзья.)</li>
+                </ul>
+            </li>
+            <li><strong>They:</strong> Может также использоваться как гендерно-нейтральное местоимение для единственного числа.
+                <ul>
+                    <li>Пример: Someone left their bag. They forgot it here. (Кто-то оставил свою сумку. Они забыли её здесь.)</li>
+                </ul>
+            </li>
+            <li><strong>It:</strong> Используется для неодушевлённых объектов, животных (если пол неизвестен), абстрактных понятий.
+                <ul>
+                    <li>Пример: It is a beautiful house. (Это красивый дом.)</li>
+                    <li>Пример: The dog is barking. It is hungry. (Собака лает. Она голодная.)</li>
+                    <li>Пример: It is raining. (Идёт дождь.)</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section class="special-uses">
+        <h2>Особенности использования местоимений</h2>
+        <ul>
+            <li>Местоимения "he" и "she" можно использовать по отношению к домашним животным, если известен их пол или они воспринимаются как индивидуальности.
+                <ul>
+                    <li>Пример: This is my dog. He loves playing fetch. (Это мой пёс. Он любит играть в мяч.)</li>
+                    <li>Пример: My cat is adorable. She always sleeps on my bed. (Моя кошка милая. Она всегда спит на моей кровати.)</li>
+                </ul>
+            </li>
+            <li>Местоимение "it" используется для животных, если пол неизвестен, или когда животное упоминается обобщённо.
+                <ul>
+                    <li>Пример: Look at the bird. It is building a nest. (Смотри на птицу. Она строит гнездо.)</li>
+                    <li>Пример: A cat is a good pet. It doesn’t require much attention. (Кошка — хороший питомец. Ей не нужно много внимания.)</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section class="it-usage">
+        <h2>Использование местоимения "it"</h2>
+        <ul>
+            <li>Для неодушевлённых предметов:
+                <ul>
+                    <li>Пример: Where is my book? It is on the table. (Где моя книга? Она на столе.)</li>
+                </ul>
+            </li>
+            <li>Для животных, если их пол неизвестен:
+                <ul>
+                    <li>Пример: The cat is cute. It is sleeping. (Кот милый. Он спит.)</li>
+                </ul>
+            </li>
+            <li>Для обозначения времени, даты, погоды и обстоятельств:
+                <ul>
+                    <li>Пример: It is raining. (Идёт дождь.)</li>
+                    <li>Пример: It is 8 o’clock. (Сейчас 8 часов.)</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section class="definite-indefinite-pronouns">
+        <h2>Определённые и неопределённые местоимения</h2>
+        <ul>
+            <li><strong>Определённые:</strong> точно указывают на объект (he, she, it, they).
+                <ul>
+                    <li>Пример: She is reading a book. (Она читает книгу.)</li>
+                </ul>
+            </li>
+            <li><strong>Неопределённые:</strong> не указывают на конкретный объект (someone, anybody, everything).
+                <ul>
+                    <li>Пример: Someone is at the door. (Кто-то у двери.)</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section class="nominative-case">
+        <h2>Именительный падеж</h2>
+        <p>Именительный падеж (Nominative Case) отвечает на вопросы «Кто?» и «Что?». Он нужен, чтобы обозначить, кто выполняет действие или о ком говорится, особенно в начале предложения.</p>
+        <p>Итог: именительный падеж нужен, чтобы обозначить, кто выполняет действие или о ком говорится, особенно в начале предложения.</p>
+        <ul>
+            <li>Пример: The dog is barking. (Собака лает.)</li>
+            <li>Пример: She is happy. (Она счастлива.)</li>
+            <li>Пример: John plays football. (Джон играет в футбол.)</li>
+            <li>Пример: I am a teacher. (Я учитель.)</li>
+            <li>Пример: They are coming. (Они идут.)</li>
+        </ul>
+    </section>
+</main>
+
+<div class="practice-container">
+    <button id="go_practice" class="practice">Перейти к практике</button>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Получаем кнопку по ее ID
+        const restartButton = document.getElementById('go_practice');
+
+        // Назначаем обработчик события для клика
+        restartButton.addEventListener('click', function() {
+            // Получаем текущий URL
+            const currentUrl = new URL(window.location.href);
+
+            // Получаем параметр 'optionsCount' из URL
+            const optionsCount = currentUrl.searchParams.get('optionsCount') || 2; // Если параметр не найден, то по умолчанию 2
+
+            // Строим новый URL с учетом параметра
+            const newUrl = `/learn/eng/practice/1?optionsCount=${optionsCount}`;
+
+            // Перенаправляем пользователя на новый URL
+            window.location.href = newUrl;
+        });
+    });
+</script>
+
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
