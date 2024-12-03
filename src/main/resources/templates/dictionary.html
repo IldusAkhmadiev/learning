@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Английский глоссарий</title>
+    <link rel="stylesheet" href="/dictionary/dictionary.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<h1>Английский глоссарий</h1>
+<div>
+    <!-- Кнопка для возврата на главную страницу -->
+    <button class="language-btn" onclick="window.location.href='/'">Вернуться назад</button>
+</div>
+<div>
+    <!-- Поле для ввода слова и кнопка для перевода -->
+    <input type="text" id="word-input" placeholder="Введите слово">
+    <button class="language-btn" onclick="translateWord()">Перевести</button>
+</div>
+<div id="translation-result">
+    <!-- Здесь будут отображаться результаты перевода -->
+</div>
+
+<div id="part-of-speech-guide">
+    <h3>Части речи и их определения:</h3>
+    <ul>
+        <li><strong>noun (существительное):</strong> Обозначает лицо, место, вещь, качество или действие.</li>
+        <li><strong>verb (глагол):</strong> Выражает действие или состояние.</li>
+        <li><strong>adjective (прилагательное):</strong> Описывает существительное.</li>
+        <li><strong>adverb (наречие):</strong> Описывает глагол, прилагательное или другое наречие.</li>
+        <li><strong>pronoun (местоимение):</strong> Заменяет существительное.</li>
+        <li><strong>preposition (предлог):</strong> Показывает отношение между словами в предложении.</li>
+        <li><strong>conjunction (союз):</strong> Соединяет слова, фразы или предложения.</li>
+        <li><strong>interjection (междометие):</strong> Выражает внезапное чувство или эмоцию.</li>
+        <li><strong>exclamation (восклицание):</strong> Слово или фраза, выражающие сильное чувство.</li>
+        <li><strong>determiner (определитель):</strong> Слово, которое определяет существительное (например, "the", "a", "this").</li>
+    </ul>
+</div>
+
+<script>
+    function translateWord() {
+        const word = document.getElementById('word-input').value;
+        fetch(`/translate/${word}`)
+            .then(response => {
+                if (response.status === 404) {
+                    document.getElementById('translation-result').innerHTML = "<p>Не удалось перевести</p>";
+                } else if (response.status === 200) {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data) {
+                    const resultDiv = document.getElementById('translation-result');
+                    resultDiv.innerHTML = '';
+
+                    data.wordResponse.forEach(wordData => {
+                        resultDiv.innerHTML += `
+                            <div class="word-block">
+                                <h2>${wordData.word}</h2>
+                                ${wordData.phonetics.map(phonetic => `
+                                    <div class="phonetic-block">
+                                        ${phonetic.text ? `<p>Фонетика: <span class="phonetic-text">${phonetic.text}</span></p>` : ''}
+                                        ${phonetic.audio ? `<audio controls src="${phonetic.audio}">Your browser does not support the audio element.</audio>` : ''}
+                                    </div>
+                                `).join('')}
+                                ${wordData.meanings.map(meaning => `
+                                    <div class="meaning-block">
+                                        <h3>${meaning.partOfSpeech}</h3>
+                                        ${meaning.definitions.map(definition => `
+                                            <div class="definition-block">
+                                                <p><strong>Определение:</strong> ${definition.definition}</p>
+                                                ${definition.example ? `<p><strong>Пример:</strong> <em>${definition.example}</em></p>` : ''}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка перевода:', error);
+            });
+    }
+</script>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

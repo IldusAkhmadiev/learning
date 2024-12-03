@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    text-align: center;
+    padding: 50px;
+}
+
+button.language-btn {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button.language-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+button.language-btn.disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}
+
+.word-block {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: left;
+    width: 80%;
+}
+
+.phonetic-block, .meaning-block, .definition-block {
+    margin-top: 10px;
+}
+
+.phonetic-text {
+    font-style: italic;
+    color: #555;
+}
+
+.meaning-block h3 {
+    color: #333;
+    margin-top: 20px;
+}
+
+.definition-block p {
+    margin-left: 20px;
+    line-height: 1.5;
+}
+
+#part-of-speech-guide {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #e0f7fa;
+    text-align: left;
+    width: 80%;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#part-of-speech-guide h3 {
+    color: #00796b;
+}
+
+#part-of-speech-guide ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#part-of-speech-guide li {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+strong {
+    color: #4CAF50;
+}
+
+em {
+    color: #666;
+}
