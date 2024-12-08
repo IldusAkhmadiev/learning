@@ -22,12 +22,12 @@ public class SpeechRestController {
     SpeechService speechService;
 
 
-    @PostMapping("/api/sound")
+    @PostMapping("/api/v1/sound")
     public String uploadAudio(@RequestParam("file") MultipartFile file)  {
         return speechService.getText(file,null);
     }
 
-    @PostMapping("/api/sound/arabic")
+    @PostMapping("/api/v1/sound/arabic")
     public String uploadAudioArabic(@RequestParam("file") MultipartFile file) {
         String pythonScriptPath = Paths.get("src/main/java/com/github/ildus_akhmadiev/learning/utils/speechArab.py")
                 .toAbsolutePath().toString();

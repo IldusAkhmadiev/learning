@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/learn/eng/practice")
+@RequestMapping("/api/v1/learn/eng/practice")
 public class LanguageRestController {
 
 

@@ -45,7 +45,7 @@ $(document).ready(function() {
         `);
 
         $.ajax({
-            url: '/learn/eng/practice/results',
+            url: '/api/v1/learn/eng/practice/results',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -79,7 +79,7 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: '/learn/eng/practice/' + lessonId + '/submit', // Динамический lessonId
+            url: '/api/v1/learn/eng/practice/' + lessonId + '/submit', // Динамический lessonId
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({

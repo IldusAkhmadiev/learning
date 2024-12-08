@@ -20,7 +20,7 @@ public class DictionaryRestController {
         this.dictionaryApiDevService = dictionaryApiDevService;
     }
 
-    @GetMapping("/translate/{word}")
+    @GetMapping("/api/v1/translate/{word}")
     public ResponseEntity<UniversalResponse> getDefinition(@PathVariable String word) {
         Mono<UniversalResponse> response = dictionaryApiDevService.getWordDefinitionAsync(word);
         UniversalResponse universalResponse = response.block();

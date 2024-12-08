@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/words")
+@RequestMapping("/api/v1/words")
 public class WordRestController {
 
     private final WordRepository wordRepository;
