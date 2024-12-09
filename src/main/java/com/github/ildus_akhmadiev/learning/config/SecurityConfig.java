@@ -36,6 +36,8 @@ public class SecurityConfig {
                 ).logout(logout -> logout
                         .logoutSuccessUrl("/login")
                         .permitAll()
+                        .clearAuthentication(true) // Явно указываем очистку аутентификации
+                        .deleteCookies("JSESSIONID", "OAuth2-Token") // Удаляем дополнительные куки (если они используются для OAuth2)
                 )
                 .cors() // Включаем CORS для всего приложения
                 .and()
