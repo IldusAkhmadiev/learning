@@ -1,6 +1,7 @@
 package com.github.ildus_akhmadiev.learning.integration.dictionaryapidev;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +20,6 @@ public class DictionaryRestController {
     public DictionaryRestController(DictionaryApiDevService dictionaryApiDevService) {
         this.dictionaryApiDevService = dictionaryApiDevService;
     }
-
     @GetMapping("/api/v1/translate/{word}")
     public ResponseEntity<UniversalResponse> getDefinition(@PathVariable String word) {
         Mono<UniversalResponse> response = dictionaryApiDevService.getWordDefinitionAsync(word);
