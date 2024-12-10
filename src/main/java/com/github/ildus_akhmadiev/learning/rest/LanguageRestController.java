@@ -10,6 +10,7 @@ import com.github.ildus_akhmadiev.learning.service.LessonService;
 import com.github.ildus_akhmadiev.learning.service.UserLessonResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.Model;
@@ -45,6 +46,7 @@ public class LanguageRestController {
         return ResponseEntity.ok(new LessonResultDTO(false, "Неверно"));
     }
 
+    @PreAuthorize("#userLessonResultDTO.userId == authentication.principal.getAttribute('sub')")
     @PostMapping("/results")
     public ResponseEntity<UserLessonResult> saveUserLessonResult(@RequestBody UserLessonResultDTO userLessonResultDTO) {
         UserLessonResult userLessonResult = userLessonResultService.saveUserLessonResult(userLessonResultDTO);
