@@ -4,17 +4,29 @@ public class LessonAnswerDTO {
     private Integer questionId;
     private String question;
     private String answer;
+    private String userId;
 
     // Конструктор по умолчанию
     public LessonAnswerDTO() {}
 
-    // Конструктор с параметрами
-    public LessonAnswerDTO(Integer question_id,String question, String answer) {
-        this.questionId = question_id;
+    public LessonAnswerDTO(Integer questionId, String question, String answer, String userId) {
+        this.questionId = questionId;
         this.question = question;
         this.answer = answer;
+        this.userId = userId;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
+    }
 
     public Integer getQuestionId() {
         return questionId;

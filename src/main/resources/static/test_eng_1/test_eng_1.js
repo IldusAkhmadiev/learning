@@ -85,7 +85,8 @@ $(document).ready(function() {
             data: JSON.stringify({
                 questionId: questionId,
                 question: pronoun,
-                answer: selectedAnswer
+                answer: selectedAnswer,
+                userId:userId
             }),
             success: function(response) {
                 // Блокируем варианты ответов
