@@ -4,12 +4,22 @@ $(document).ready(function() {
     let currentSlideIndex = 0;
     const lessonId = $("meta[name='lessonId']").attr("content");
     const userId = $("input[name='userId']").val(); // Получение значения из скрытого поля
+    const csrfToken = $("meta[name='_csrf']").attr("content");
+    const csrfHeader = $("meta[name='_csrf_header']").attr("content");
     console.log(userId);
+
+    $.ajaxSetup({
+        headers: {
+            [csrfHeader]: csrfToken  // Используйте квадратные скобки для динамического имени заголовка
+        }
+    });
+
     function updateProgress() {
         const progressPercentage = (currentSlideIndex / (slides.length - 2)) * 100; // -2 чтобы игнорировать результативный слайд
         $('#progress').css('width', `${progressPercentage}%`);
         console.log(`Progress updated: ${progressPercentage}%`);
     }
+
 
     function showNextSlide() {
         console.log(`Hiding slide ${currentSlideIndex}`);

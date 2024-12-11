@@ -52,9 +52,11 @@
     <div class="header">
         <div class="user-info">
             <span class="username" th:text="${#authentication.principal.attributes.name}">Username</span>
-            <a class="logout-btn" href="/logout">Выйти</a>
+            <a class="logout-btn" href="#" id="logout-link">Выйти</a>
         </div>
     </div>
+    <script src="/fragments/header.js" defer></script>
 </header>
+
 </body>
 </html>

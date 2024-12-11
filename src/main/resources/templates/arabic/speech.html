@@ -104,7 +104,7 @@
         const formData = new FormData();
         formData.append('file', audioBlob, 'recording.wav');
 
-        fetch('/api/v1/sound/arabic', {
+        fetch('/api/v1/public/sound/arabic', {
             method: 'POST',
             body: formData
         })
