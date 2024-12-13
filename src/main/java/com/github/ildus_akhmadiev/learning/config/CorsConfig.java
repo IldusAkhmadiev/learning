@@ -17,7 +17,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/v1/learn/eng/practice/results") // Ограничиваем доступ к этому endpoint
                 .allowedOrigins("http://localhost:8080") // Указываем ваш домен
-                .allowedMethods("POST", "GET") // Разрешённые методы
+                .allowedMethods("POST") // Разрешённые методы
                 .allowedHeaders("*") // Какие заголовки разрешены
                 .allowCredentials(true); // Разрешение передачи cookie
 
