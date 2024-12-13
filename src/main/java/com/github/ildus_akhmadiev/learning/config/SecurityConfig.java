@@ -22,7 +22,7 @@ public class SecurityConfig {
 
     @Autowired
     private final OAuth2LoginSuccessHandler oauth2LoginSuccessHandler;
-
+git
     public SecurityConfig(OAuth2LoginSuccessHandler oauth2LoginSuccessHandler) {
         this.oauth2LoginSuccessHandler = oauth2LoginSuccessHandler;
     }
@@ -31,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/index", "/login", "/api/docs/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Разрешаем доступ к Swagger UI и API docs
+                        .requestMatchers( "/login").permitAll() // Разрешаем доступ к Swagger UI и API docs
                         .anyRequest().authenticated() // Остальные запросы требуют аутентификации
                 )
                 .oauth2Login(oauth2 -> oauth2
