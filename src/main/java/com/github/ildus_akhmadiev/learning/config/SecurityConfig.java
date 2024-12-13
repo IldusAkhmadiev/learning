@@ -22,7 +22,7 @@ public class SecurityConfig {
 
     @Autowired
     private final OAuth2LoginSuccessHandler oauth2LoginSuccessHandler;
-git
+
     public SecurityConfig(OAuth2LoginSuccessHandler oauth2LoginSuccessHandler) {
         this.oauth2LoginSuccessHandler = oauth2LoginSuccessHandler;
     }
@@ -54,19 +54,6 @@ git
         return http.build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://localhost:8080")); // Ваш фронтенд
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Разрешённые методы
-        corsConfig.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization")); // Разрешённые заголовки
-        corsConfig.setAllowCredentials(true); // Разрешить использование cookie
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig); // Применяем CORS ко всем запросам
-
-        return source;
-    }
     // можно кастомизировать .изучить.
     private OidcUserService oidcUserService() {
         return new OidcUserService(); }

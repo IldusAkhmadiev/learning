@@ -6,6 +6,7 @@ import com.github.ildus_akhmadiev.learning.exception.ResourceNotFoundException;
 import com.github.ildus_akhmadiev.learning.model.Translation;
 import com.github.ildus_akhmadiev.learning.model.Word;
 import com.github.ildus_akhmadiev.learning.repository.WordRepository;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
