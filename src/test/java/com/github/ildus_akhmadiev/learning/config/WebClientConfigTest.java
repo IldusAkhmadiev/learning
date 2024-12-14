@@ -10,12 +10,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.DirtiesContext;
+
 import org.springframework.web.reactive.function.client.WebClient;
 
 
 /***
  * Не поднимать вес контекст для теста
+ * контекст не грязный.
  */
 @SpringBootTest(classes = {WebClientConfig.class})
 public class WebClientConfigTest {

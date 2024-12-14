@@ -5,68 +5,54 @@
     <th:block th:include="fragments/csrf-meta-fragment" />
     <title>User List</title>
     <link rel="stylesheet" href="/index/index.css">
-    <style>
-        .language-btn, .additional-btn {
-            background-color: #4CAF50; /* Зеленый цвет */
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 5px;
-            cursor: pointer;
-            transition-duration: 0.4s;
-        }
-        .language-btn:hover, .additional-btn:hover {
-            background-color: white;
-            color: black;
-            border: 2px solid #4CAF50;
-        }
-        .disabled {
-            background-color: grey;
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
+
 <h1>Выбери язык</h1>
 <div>
-    <!-- Кнопка для английского языка -->
     <button class="language-btn" onclick="window.location.href='/learn/eng'">English</button>
-    <!-- Кнопка для словаря английского языка -->
     <button class="language-btn" onclick="window.location.href='/dictionary/eng'">Английский глоссарий</button>
-    <!-- Кнопка для арабского языка, помечена как недоступная -->
     <button class="language-btn disabled" disabled>Arabic грамматика (Пока недоступно)</button>
-    <!-- Кнопка для арабского языка, помечена как недоступная -->
 </div>
 
 <div>
-    <!-- Новые кнопки для проверки произношения и результатов -->
     <button class="additional-btn" onclick="window.location.href='/speech'">Проверь свое произношение(английский)</button>
     <button class="additional-btn" onclick="window.location.href='/arabic/speech'">Проверь свое произношение(арабский)</button>
     <button class="additional-btn" onclick="window.location.href='/list'">Ваши результаты</button>
 </div>
 
-<h1>Пользователи которые зарегистрировались у нас</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Пользователи: </th>
-    </tr>
-    </thead>
-    <tbody id="user-list">
-    <tr th:each="user : ${users}">
-        <td th:text="${user.username}">Username</td>
-    </tr>
-    </tbody>
-</table>
+<div class="user-search-container">
+    <h2>Пользователи которые зарегистрировались у нас</h2>
+    <form id="userSearchForm" method="get" action="/">
+        <input type="text" name="username" placeholder="Найти пользователя"
+               th:value="${param.username != null ? param.username[0] : ''}">
+        <button type="submit" class="search-btn">Поиск</button>
+    </form>
 
+    <table>
+        <thead>
+        <tr>
+            <th>Пользователи</th>
+        </tr>
+        </thead>
+        <tbody id="user-list">
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}">Username</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" th:if="${totalPages > 1}">
+        <a th:each="page: ${#numbers.sequence(0, totalPages - 1)}"
+           th:href="@{/(page=${page}, username=${param.username != null ? param.username[0] : ''})}"
+           th:text="${page + 1}"
+           th:class="${page == currentPage ? 'active' : ''}">
+        </a>
+    </div>
+</div>
 
 <script src="/index/index.js"></script>
-
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
