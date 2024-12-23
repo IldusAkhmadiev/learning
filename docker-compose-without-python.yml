@@ -10,13 +10,13 @@ services:
       - "5005:5005"
     depends_on:
       - postgres
-      - python-service
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/learning
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=Tw2dj4dis5D
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - FLASK_SERVER_URL=http://python-service:5000/transcribe
+      # Убедитесь, что URL корректный, если сервис Flask не используется
+      - FLASK_SERVER_URL=http://localhost:5000/transcribe
     networks:
       - app-network
 
@@ -30,17 +30,6 @@ services:
       - POSTGRES_PASSWORD=Tw2dj4dis5D
     ports:
       - "5433:5432"
-    networks:
-      - app-network
-
-  python-service:
-    build:
-      context: .
-      dockerfile: Dockerfile.python
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./src/main/python:/python-service
     networks:
       - app-network
 

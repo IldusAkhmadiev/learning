@@ -1,0 +1,32 @@
+# Базовый образ Python
+FROM python:3.9-slim
+
+# Рабочая директория в контейнере
+WORKDIR /python-service
+
+# Установка системных зависимостей
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Копирование зависимостей
+COPY requirements.txt /python-service/requirements.txt
+
+# Установка Python-зависимостей с увеличенным таймаутом
+RUN pip install --default-timeout=300 -r requirements.txt
+
+# Копирование исходного кода приложения
+COPY src/main/python /python-service
+
+# Установка переменных окружения для Flask
+ENV PYTHONUNBUFFERED=1 \
+    FLASK_APP=app.py
+
+# Установка временной зоны (если требуется)
+# ENV TZ=Europe/Moscow
+
+# Открытие порта 5000
+EXPOSE 5000
+
+# Команда для запуска Flask
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]

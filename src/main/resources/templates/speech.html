@@ -5,7 +5,7 @@
     <title>Запись голоса</title>
     <style>
         body {
-            background-color: #f0f8ff; /* Светло-голубой фон */
+            background-color: #f0f8ff;
             font-family: Arial, sans-serif;
         }
         .recording {
@@ -20,7 +20,7 @@
             display: none;
         }
         #recordButton {
-            background-color: #4CAF50; /* Зеленый цвет */
+            background-color: #4CAF50;
             border: none;
             color: white;
             padding: 15px 32px;
@@ -41,19 +41,49 @@
             display: block;
             margin-top: 20px;
         }
-        #resultMessage, #loadingMessage {
+        #resultMessage, #loadingMessage, #errorMessage {
             font-size: 18px;
-            color: #333;
-        }
-        #resultMessage {
             margin-top: 20px;
             padding: 10px;
-            border: 2px solid #4CAF50;
             border-radius: 5px;
         }
+        #resultMessage {
+            color: #333;
+            border: 2px solid #4CAF50;
+            background-color: #f8fff8;
+        }
         #loadingMessage {
-            margin-top: 10px;
-            color: red;
+            color: #666;
+            border: 2px solid #666;
+            background-color: #f5f5f5;
+        }
+        #errorMessage {
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+            background-color: #fff8f8;
+        }
+        .loader {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .loader span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: bounce 0.6s infinite alternate;
+        }
+        .loader span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .loader span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
         }
     </style>
 </head>
@@ -62,8 +92,17 @@
 <h1>Запись голоса</h1>
 <button id="recordButton" onclick="toggleRecording()">Начать запись</button>
 <audio id="audioPlayback" controls></audio>
-<p id="resultMessage"></p>
-<p id="loadingMessage" class="recording hidden">пытаемся распознать вашу речь</p>
+<div id="resultMessage" class="hidden"></div>
+<div id="loadingMessage" class="hidden">
+    Пытаемся распознать вашу речь
+    <span class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
+</div>
+<div id="errorMessage" class="hidden"></div>
+
 <script>
     let mediaRecorder;
     let audioChunks = [];
@@ -83,23 +122,50 @@
     }
 
     async function startRecording() {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = event => {
-            audioChunks.push(event.data);
-        };
-        mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            audioChunks = [];
-            const audioUrl = URL.createObjectURL(audioBlob);
-            document.getElementById('audioPlayback').src = audioUrl;
-            sendAudio(audioBlob);
-        };
-        mediaRecorder.start();
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = event => {
+                audioChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                audioChunks = [];
+                const audioUrl = URL.createObjectURL(audioBlob);
+                document.getElementById('audioPlayback').src = audioUrl;
+                sendAudio(audioBlob);
+            };
+
+            mediaRecorder.start();
+            hideAllMessages();
+        } catch (error) {
+            showError('Ошибка доступа к микрофону: ' + error.message);
+        }
+    }
+
+    function hideAllMessages() {
+        document.getElementById('loadingMessage').classList.add('hidden');
+        document.getElementById('resultMessage').classList.add('hidden');
+        document.getElementById('errorMessage').classList.add('hidden');
+    }
+
+    function showMessage(elementId, text = '') {
+        hideAllMessages();
+        const element = document.getElementById(elementId);
+        if (text) {
+            element.innerHTML = text;
+        }
+        element.classList.remove('hidden');
+    }
+
+    function showError(message) {
+        showMessage('errorMessage', message);
     }
 
     function sendAudio(audioBlob) {
-        document.getElementById('loadingMessage').classList.remove('hidden'); // Показываем мигающее сообщение
+        showMessage('loadingMessage');
 
         const formData = new FormData();
         formData.append('file', audioBlob, 'recording.wav');
@@ -108,14 +174,24 @@
             method: 'POST',
             body: formData
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
-                document.getElementById('loadingMessage').classList.add('hidden'); // Скрываем мигающее сообщение
-                document.getElementById('resultMessage').textContent = 'Вы сказали: ' + data.value;
+                if (data && data.transcription) {
+                    showMessage('resultMessage', 'Распознанный текст: ' + data.transcription);
+                } else if (data && data.error) {
+                    showError('Ошибка распознавания: ' + data.error);
+                } else {
+                    showError('Неожиданный формат ответа от сервера');
+                }
             })
             .catch(error => {
-                document.getElementById('loadingMessage').classList.add('hidden'); // Скрываем мигающее сообщение
-                console.error('Ошибка отправки:', error);
+                showError('Ошибка при отправке аудио: ' + error.message);
+                console.error('Ошибка:', error);
             });
     }
 </script>
