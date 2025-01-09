@@ -2,13 +2,10 @@ version: '3.8'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile.spring
+    image: ildusakhmadiev/learning-app:1.0-full
     ports:
       - "8080:8080"
       - "5005:5005"
-    image: ildusakhmadiev/learning-app:1.0
     depends_on:
       - postgres
       - python-service
@@ -35,13 +32,9 @@ services:
       - app-network
 
   python-service:
-    build:
-      context: .
-      dockerfile: Dockerfile.python
+    image: ildusakhmadiev/learning-app-python:1.0
     ports:
       - "5000:5000"
-    volumes:
-      - ./src/main/python:/python-service
     networks:
       - app-network
 
