@@ -24,7 +24,7 @@ docker compose -f docker-compose-without-python.yml build
 Ошибка при отправке аудио: Ошибка сервера: 500 при обращении к сервису по распознанию речи.
 Это связано с отсутствием Python-сервиса для обработки голоса.
 
-Полная версия (5.91 ГБ)
+### Полная версия (5.91 ГБ)
 
 ```bash
 docker compose -f docker-compose.yml build
