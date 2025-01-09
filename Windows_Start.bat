@@ -37,4 +37,4 @@ echo Application is starting at http://localhost:8080
 echo.
 echo To view logs use: docker logs learning-app
 echo To stop application use: docker stop postgres-learning learning-app
-pause
+pausedocker compose -f docker-compose.yml build
